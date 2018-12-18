@@ -20,6 +20,8 @@ function getContent(batch) {
 			if(value != null) {
 				if(typeof value === 'object') {
 					line.push(JSON.stringify(value))					
+				} else if (headers[z] === 'iovation') {
+					line.push("Yes")
 				} else {
 					line.push(value)
 				}
