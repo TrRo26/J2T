@@ -1,7 +1,16 @@
+/*HEADER*/
+.header-container {
+	background: grey;
+	position: fixed;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	height: 70px;
+	width: 100%;
+}
 .title {
-	padding-top: 30px;
-	text-align: center;
-	font-size: 40px;
+	padding: 0px 10px;
+	text-align: right;
+	font-size: 30px;
 }
 .reset-button {
 	position: fixed;
@@ -12,7 +21,7 @@
 	padding: 3px 10px;
 	border-radius: 3px;
 	left: 20px;
-	top: 20px;
+	top: 5px;
 }
 .reset-button:hover {
 	cursor: pointer;
@@ -21,8 +30,7 @@
 
 /*SUBMIT*/
 .submit-container {
-	padding: 10px;
-	/*display: none;*/
+	padding: 80px 10px;
 }
 .text-area {
 	display: block;
@@ -48,8 +56,7 @@
 
 /*TABLE*/
 .table-container {
-	padding: 30px;
-	/*display: none;*/
+	padding: 100px 30px;
 }
 .headers-container {
 	padding: 30px;

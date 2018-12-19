@@ -1,3 +1,5 @@
+const visibleHeaders = ['name','page_id','variant','brand','client_id','image_url','product_url','catalog_id','feed_category','upc']	
+
 // FUNCTIONS
 function displayContent(batch) {
 	var allRows = getContent(batch)
@@ -12,22 +14,35 @@ function displayContent(batch) {
 
 function getContent(batch) {
 	const headers = getHeaders(batch)
+	const defaultHeaders = []
+	for (h=0;h<headers.length;h++) {
+		if(visibleHeaders.includes(headers[h])) {
+			defaultHeaders.push(headers[h])
+		}
+	}
+	
+	console.log('DEFAULT HEADERS')
+	console.log(defaultHeaders)
+	appendHeaders(defaultHeaders)
+
 	var allContent = []
 	for(i=0;i<batch.length;i++) {
 		var line = []
-		for(z=0;z<headers.length;z++) {
-			var value = batch[i][headers[z]]
-			if(value != null) {
-				if(typeof value === 'object') {
-					line.push(JSON.stringify(value))					
-				} else if (headers[z] === 'iovation') {
-					line.push("Yes")
+		for(z=0;z<defaultHeaders.length;z++) {
+			var value = batch[i][defaultHeaders[z]]
+			// if (visibleHeaders.includes(defaultHeaders[z])) {
+				if(value != null) {
+					if (typeof value === 'object') {
+						line.push(JSON.stringify(value))					
+					} else if (defaultHeaders[z] === 'iovation') {
+						line.push("Yes")
+					} else {
+						line.push(value)
+					}
 				} else {
-					line.push(value)
+					line.push(" ")
 				}
-			} else {
-				line.push(" ")
-			}
+			// }
 		}
 		allContent.push(line)
 	}
@@ -48,7 +63,7 @@ function getHeaders(batch) {
 	}
 	console.log("HEADERS:" )
 	console.log(uniqueHeaders)
-	appendHeaders(uniqueHeaders)
+	// appendHeaders(uniqueHeaders)
 	return uniqueHeaders
 }
 
@@ -57,6 +72,11 @@ function appendHeaders(headers) {
 		$(".headers-container").append("<th class='header-item header-item-" + headers[x] + "'>" + headers[x] + "</th>")	
 	}
 }
+
+// function initalHeaders() {
+// 	const visibleHeaders = ['name','page_id','variant','brand','client_id','image_url','product_url','catalog_id','feed_category','upc']	
+// 	return visibleHeaders
+// }
 
 // BUSINESS LOGIC
 $(".submit-button").click(function() {
