@@ -13,19 +13,28 @@
 	text-align: right;
 	font-size: 30px;
 }
-.reset-button, .subject-filter-button {
+.reset-button {
+	position: relative;
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	top: -55px;
+	margin-left: 20px;
+}
+.subject-filter-button {
 	position: relative;
 	display: inline-block;
 	background-color: lightgrey;
-	border: 1px solid red;
-	width: 200px;
+	text-align: center;
+	width: 150px;
 	font-size: 20px;
 	margin: 10px;
+	margin-left: 40px;
 	padding: 5px 10px;
 	border-radius: 3px;
 	top: -50px;
 }
-.reset-button:hover, .subject-filter-button:hover {
+.subject-filter-button:hover {
 	cursor: pointer;
 	background-color: #cce0ff;
 }

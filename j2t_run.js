@@ -43,8 +43,7 @@ function getContent(batch, filter) {
 		}
 		allContent.push(line)
 	}
-	console.log("TABLE DATA:" )
-	console.log(allContent)
+	console.log("TABLE DATA: " + allContent )
 	return(allContent)
 }
 
@@ -58,8 +57,7 @@ function getAllHeaders(batch) {
 			}
 		}
 	}
-	console.log("HEADERS: " + uniqueHeaders)
-	// appendHeaders(uniqueHeaders)
+	console.log("ALL HEADERS: " + uniqueHeaders)
 	return uniqueHeaders
 }
 
@@ -71,7 +69,6 @@ function appendHeaders(headers) {
 
 function applyFilter(headers, filter) {
 	const filteredHeaders = []
-	console.log("FILTER!!! " + filter)
 	if (filter) {
 		for (h=0;h<headers.length;h++) {
 			if(filter.includes(headers[h])) {
@@ -97,6 +94,11 @@ $(".submit-button").click(function() {
 	var inputArray = $textAreaInput.split("\n")
 	var objectArray = []
 	for(s=0;s<inputArray.length;s++) {
+		try {
+			JSON.parse(inputArray[s])
+		} catch(err) {
+			$(".text-area").val(err)
+		}
 		objectArray.push(JSON.parse(inputArray[s]))
 	}
 	CURRENTDATA = objectArray
@@ -109,7 +111,7 @@ $(".subject-filter-button").click(function() {
 	var subjectFilterButton = $(".subject-filter-button")
 	if (subjectFilterButton.attr("active") === "false") {
 		subjectFilterButton.attr("active", "true")
-		subjectFilterButton.css("background", "green" )
+		subjectFilterButton.css("background", "#66ff99" )
 		$(".table-main").empty().append('<tr class="headers-container"></tr>')
 		displayContent(CURRENTDATA, subjectFilter)
 	} else {
@@ -124,3 +126,11 @@ $(".subject-filter-button").click(function() {
 $(".reset-button").click(function() {
 	location.reload(subjectFilter)
 })
+
+$(".reset-button").hover(function() {
+		$(this).attr('src', './reset_icon_red.png')
+		$(this).css('background', 'grey')
+	}, function() {
+		$(this).attr('src', './reset_icon_black.jpg')
+	}
+)
