@@ -1,47 +1,66 @@
 /*HEADER*/
-.header-container {
+.main-menu-container {
 	background: grey;
 	position: fixed;
 	border-top: 1px solid black;
 	border-bottom: 1px solid black;
-	height: 70px;
+	height: 60px;
 	width: 100%;
-	Padding: 10px;
+	Padding: 7px;
+}
+.sub-menu-container {
+	position: fixed;
+	top: 60px;
+	background: lightgrey;
+	border-bottom: 1px solid black;
+	height: auto;
+	width: 100%;
+}
+.sub-menu-item {
+	display: inline-block;
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 5px;
+	height: 35px;
+	margin: 3px;
+	background: #66ff99;
+	cursor: pointer;
 }
 .title {
-	padding: 0px 10px;
+	padding: 0px 30px;
 	text-align: right;
 	font-size: 30px;
 }
 .reset-button {
 	position: relative;
-	display: inline-block;
+	display: none;
 	height: 40px;
 	width: 40px;
 	top: -55px;
-	margin-left: 20px;
+	margin: 0px 30px;
+	cursor: pointer;
 }
-.subject-filter-button {
+.preset-filter {
 	position: relative;
-	display: inline-block;
+	display: none;
 	background-color: lightgrey;
+	border: 1px solid black;
 	text-align: center;
 	width: 150px;
 	font-size: 20px;
 	margin: 10px;
-	margin-left: 40px;
 	padding: 5px 10px;
 	border-radius: 3px;
 	top: -50px;
 }
-.subject-filter-button:hover {
+.preset-filter:hover {
 	cursor: pointer;
 	background-color: #cce0ff;
 }
 
 /*SUBMIT*/
 .submit-container {
-	padding: 80px 10px;
+	padding: 120px 10px;
 }
 .text-area {
 	display: block;
@@ -67,7 +86,7 @@
 
 /*TABLE*/
 .table-container {
-	padding: 100px 30px;
+	padding: 170px 10px;
 }
 .headers-container {
 	padding: 30px;

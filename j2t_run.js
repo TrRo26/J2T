@@ -1,10 +1,12 @@
 // ================================================================
-// CONFIG
+// VARIABLES
 // ================================================================
+var ALLCURRENTDATA = []
+var ALLUNIQUEHEADERS = []
+var ACTIVEHEADERS = []
 const subjectFilter = ['name','page_id','variant','brand','client_id','image_url','product_url','catalog_id','feed_category','upc']	
-const ugcFilter = []
+const ugcFilter = ['eamil','locale','rating','headline','bottom_line','started_date','review_source']
 
-var CURRENTDATA = []
 // ================================================================
 // FUNCTIONS
 // ================================================================
@@ -21,6 +23,7 @@ function displayContent(batch, filter) {
 
 function getContent(batch, filter) {
 	const headers = getAllHeaders(batch)
+	renderFilterButtons(headers)
 	const filteredHeaders = applyFilter(headers, filter)
 	appendHeaders(filteredHeaders)
 
@@ -43,7 +46,6 @@ function getContent(batch, filter) {
 		}
 		allContent.push(line)
 	}
-	console.log("TABLE DATA: " + allContent )
 	return(allContent)
 }
 
@@ -57,8 +59,22 @@ function getAllHeaders(batch) {
 			}
 		}
 	}
+	ALLUNIQUEHEADERS = uniqueHeaders
 	console.log("ALL HEADERS: " + uniqueHeaders)
 	return uniqueHeaders
+}
+
+function renderFilterButtons(headers) {
+	$(".sub-menu-container").empty()
+	for(x=0;x<headers.length;x++) {
+		if (ACTIVEHEADERS.includes(headers[x]) || ACTIVEHEADERS.length == 0) {
+			$(".sub-menu-container").append("<span class='sub-menu-item' active='true' item='" + headers[x] + "'>" + headers[x] + "</span>")
+			$("[item=" + headers[x] + "]").css({"background": "#7eae7b", "color": "black"})
+		} else {
+			$(".sub-menu-container").append("<span class='sub-menu-item' active='false' item='" + headers[x] + "'>" + headers[x] + "</span>")
+			$("[item=" + headers[x] + "]").css({"background": "lightgrey", "color": "black"})
+		}
+	}
 }
 
 function appendHeaders(headers) {
@@ -81,6 +97,7 @@ function applyFilter(headers, filter) {
 		}
 	}
 	console.log('FILTERED HEADERS: ' + filteredHeaders)
+	ACTIVEHEADERS = filteredHeaders
 	return filteredHeaders
 }
 
@@ -101,25 +118,10 @@ $(".submit-button").click(function() {
 		}
 		objectArray.push(JSON.parse(inputArray[s]))
 	}
-	CURRENTDATA = objectArray
+	ALLCURRENTDATA = objectArray
 	$(".submit-container").css("display", "none")
+	$(".preset-filter, .reset-button").css("display", "inline-block")
 	displayContent(objectArray)
-})
-
-// SUBJECT FILTER BUTTON
-$(".subject-filter-button").click(function() {
-	var subjectFilterButton = $(".subject-filter-button")
-	if (subjectFilterButton.attr("active") === "false") {
-		subjectFilterButton.attr("active", "true")
-		subjectFilterButton.css("background", "#66ff99" )
-		$(".table-main").empty().append('<tr class="headers-container"></tr>')
-		displayContent(CURRENTDATA, subjectFilter)
-	} else {
-		subjectFilterButton.attr("active", "false")
-		subjectFilterButton.css("background", "lightgrey" )
-		$(".table-main").empty().append('<tr class="headers-container"></tr>')
-		displayContent(CURRENTDATA)
-	}
 })
 
 // RESET BUTTON
@@ -134,3 +136,49 @@ $(".reset-button").hover(function() {
 		$(this).attr('src', './reset_icon_black.jpg')
 	}
 )
+
+// SUBJECT FILTER BUTTON
+$(".main-menu-container").on("click", ".preset-filter", function() {
+	var filterButton = $(this)
+	console.log(filterButton)
+	if (filterButton.attr("active") === "false") {
+		filterButton.attr("active", "true")
+		filterButton.css({"background": "#7eae7b", "color": "black"})
+		$(".table-main").empty().append('<tr class="headers-container"></tr>')
+		if (filterButton.attr("data") === 'subjectFilter') {
+			$(".ugc-filter-button").attr("active", "false").css({"background": "lightgrey", "color": "black"})
+			ACTIVEHEADERS = subjectFilter
+		} else if (filterButton.attr("data") === 'ugcFilter') {
+			$(".subject-filter-button").attr("active", "false").css({"background": "lightgrey", "color": "black"})
+			ACTIVEHEADERS = ugcFilter
+		}
+		displayContent(ALLCURRENTDATA, ACTIVEHEADERS)
+	} else {
+		filterButton.attr("active", "false")
+		filterButton.css({"background": "lightgrey", "color": "black"})
+		$(".table-main").empty().append('<tr class="headers-container"></tr>')
+		ACTIVEHEADERS = ALLUNIQUEHEADERS
+		displayContent(ALLCURRENTDATA)
+	}
+})
+
+// ITEM FILTER BUTTONS
+$(".sub-menu-container").on("click", ".sub-menu-item", function() {
+   	var clicked = $(this)
+   	var item = clicked.attr("item")
+	if (ACTIVEHEADERS.includes(item)) {
+		var index = ACTIVEHEADERS.indexOf(item)
+		if (index > -1) {
+			ACTIVEHEADERS.splice(index, 1)
+		}
+		$(".table-main").empty().append('<tr class="headers-container"></tr>')
+		displayContent(ALLCURRENTDATA, ACTIVEHEADERS)
+	} else {
+		if (!ACTIVEHEADERS.includes(item)) {
+			ACTIVEHEADERS.unshift(item)
+		}
+		$(".table-main").empty().append('<tr class="headers-container"></tr>')
+		displayContent(ALLCURRENTDATA, ACTIVEHEADERS)
+   	}
+   	console.log($(this))
+})
