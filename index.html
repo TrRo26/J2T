@@ -3,16 +3,27 @@
 <head>
 	<title>J2T</title>
 	<script
-  src="https://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="./j2t_run.css"></script>
+  		src="https://code.jquery.com/jquery-3.3.1.js"
+  		integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+		crossorigin="anonymous">
+	</script>
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  	<link rel="stylesheet" href="./j2t_run.css"></script>
 </head>
 <body>
 
+	<!-- HEADER -->
 	<header>
 		<div class="main-menu-container">
+			<div class="jason-table-container">
+				<div class="jason-image">
+					<img src="./jason_alexander.png">
+				</div>
+				<div class="to">></div>
+				<div class="table-image">
+					<img src="./table.png">
+				</div>
+			</div>
 			<div class="title">JSON to Table</div>
 			<img src="./reset_icon_black.jpg" class="reset-button">
 			<div class="preset-filter subject-filter-button" data="subjectFilter" active="false">Subject Filter</div>
@@ -23,21 +34,21 @@
 		</div>
 	</header>
 
-<!-- SUBMIT -->
+	<!-- SUBMIT -->
 	<div class="submit-container">
 			<div class="description"></div>
 			<textarea class="text-area" rows="30" cols="20"></textarea>
 			<div class="submit-button">Convert</div>
 	</div>
 
-<!-- TABLE -->
+	<!-- TABLE -->
 	<div class="table-container">
 		<table class="table-main">
 			<tr class="headers-container"></tr>
 		</table>
 	</div>
 
-<!-- SCRIPTS -->
+	<!-- SCRIPTS -->
 	<script src="./j2t_run.js"></script>
 	
 </body>

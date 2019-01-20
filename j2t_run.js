@@ -5,7 +5,7 @@ var ALLCURRENTDATA = []
 var ALLUNIQUEHEADERS = []
 var ACTIVEHEADERS = []
 const subjectFilter = ['name','page_id','variant','brand','client_id','image_url','product_url','catalog_id','feed_category','upc']	
-const ugcFilter = ['eamil','locale','rating','headline','bottom_line','started_date','review_source']
+const ugcFilter = ['email','locale','rating','headline','bottom_line','started_date','review_source']
 
 // ================================================================
 // FUNCTIONS
@@ -69,10 +69,10 @@ function renderFilterButtons(headers) {
 	for(x=0;x<headers.length;x++) {
 		if (ACTIVEHEADERS.includes(headers[x]) || ACTIVEHEADERS.length == 0) {
 			$(".sub-menu-container").append("<span class='sub-menu-item' active='true' item='" + headers[x] + "'>" + headers[x] + "</span>")
-			$("[item=" + headers[x] + "]").css({"background": "#7eae7b", "color": "black"})
+			$("[item=" + headers[x] + "]").css({"background": "#7eae7b"})
 		} else {
 			$(".sub-menu-container").append("<span class='sub-menu-item' active='false' item='" + headers[x] + "'>" + headers[x] + "</span>")
-			$("[item=" + headers[x] + "]").css({"background": "lightgrey", "color": "black"})
+			$("[item=" + headers[x] + "]").css({"background": "lightgrey"})
 		}
 	}
 }
@@ -120,6 +120,7 @@ $(".submit-button").click(function() {
 	}
 	ALLCURRENTDATA = objectArray
 	$(".submit-container").css("display", "none")
+	$(".jason-table-container").remove()
 	$(".preset-filter, .reset-button").css("display", "inline-block")
 	displayContent(objectArray)
 })
@@ -143,19 +144,19 @@ $(".main-menu-container").on("click", ".preset-filter", function() {
 	console.log(filterButton)
 	if (filterButton.attr("active") === "false") {
 		filterButton.attr("active", "true")
-		filterButton.css({"background": "#7eae7b", "color": "black"})
+		filterButton.css({"background": "#7eae7b"})
 		$(".table-main").empty().append('<tr class="headers-container"></tr>')
 		if (filterButton.attr("data") === 'subjectFilter') {
-			$(".ugc-filter-button").attr("active", "false").css({"background": "lightgrey", "color": "black"})
+			$(".ugc-filter-button").attr("active", "false").css({"background": "lightgrey"})
 			ACTIVEHEADERS = subjectFilter
 		} else if (filterButton.attr("data") === 'ugcFilter') {
-			$(".subject-filter-button").attr("active", "false").css({"background": "lightgrey", "color": "black"})
+			$(".subject-filter-button").attr("active", "false").css({"background": "lightgrey"})
 			ACTIVEHEADERS = ugcFilter
 		}
 		displayContent(ALLCURRENTDATA, ACTIVEHEADERS)
 	} else {
 		filterButton.attr("active", "false")
-		filterButton.css({"background": "lightgrey", "color": "black"})
+		filterButton.css({"background": "lightgrey"})
 		$(".table-main").empty().append('<tr class="headers-container"></tr>')
 		ACTIVEHEADERS = ALLUNIQUEHEADERS
 		displayContent(ALLCURRENTDATA)
