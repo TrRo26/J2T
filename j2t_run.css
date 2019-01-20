@@ -6,24 +6,26 @@
 	border-bottom: 1px solid black;
 	height: 70px;
 	width: 100%;
+	Padding: 10px;
 }
 .title {
 	padding: 0px 10px;
 	text-align: right;
 	font-size: 30px;
 }
-.reset-button {
-	position: fixed;
+.reset-button, .subject-filter-button {
+	position: relative;
+	display: inline-block;
 	background-color: lightgrey;
 	border: 1px solid red;
+	width: 200px;
 	font-size: 20px;
-	margin: auto;
-	padding: 3px 10px;
+	margin: 10px;
+	padding: 5px 10px;
 	border-radius: 3px;
-	left: 20px;
-	top: 5px;
+	top: -50px;
 }
-.reset-button:hover {
+.reset-button:hover, .subject-filter-button:hover {
 	cursor: pointer;
 	background-color: #cce0ff;
 }

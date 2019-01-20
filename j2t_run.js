@@ -1,48 +1,45 @@
-const visibleHeaders = ['name','page_id','variant','brand','client_id','image_url','product_url','catalog_id','feed_category','upc']	
+// ================================================================
+// CONFIG
+// ================================================================
+const subjectFilter = ['name','page_id','variant','brand','client_id','image_url','product_url','catalog_id','feed_category','upc']	
+const ugcFilter = []
 
+var CURRENTDATA = []
+// ================================================================
 // FUNCTIONS
-function displayContent(batch) {
-	var allRows = getContent(batch)
+// ================================================================
+function displayContent(batch, filter) {
+	var allRows = getContent(batch, filter)
 	for(i=0;i<allRows.length;i++) {
-			var row = allRows[i]
-			$(".table-main").append("<tr id='cr-" + [i] + "' class='content-row'></tr>")			
-			for(x=0;x<row.length;x++) {
-				$("#cr-" + [i]).append("<td class='content-item'>" + row[x] + "</td>")	
-			}
+		var row = allRows[i]
+		$(".table-main").append("<tr id='cr-" + [i] + "' class='content-row'></tr>")			
+		for(x=0;x<row.length;x++) {
+			$("#cr-" + [i]).append("<td class='content-item'>" + row[x] + "</td>")	
+		}
 	}
 }
 
-function getContent(batch) {
-	const headers = getHeaders(batch)
-	const defaultHeaders = []
-	for (h=0;h<headers.length;h++) {
-		if(visibleHeaders.includes(headers[h])) {
-			defaultHeaders.push(headers[h])
-		}
-	}
-	
-	console.log('DEFAULT HEADERS')
-	console.log(defaultHeaders)
-	appendHeaders(defaultHeaders)
+function getContent(batch, filter) {
+	const headers = getAllHeaders(batch)
+	const filteredHeaders = applyFilter(headers, filter)
+	appendHeaders(filteredHeaders)
 
 	var allContent = []
 	for(i=0;i<batch.length;i++) {
 		var line = []
-		for(z=0;z<defaultHeaders.length;z++) {
-			var value = batch[i][defaultHeaders[z]]
-			// if (visibleHeaders.includes(defaultHeaders[z])) {
-				if(value != null) {
-					if (typeof value === 'object') {
-						line.push(JSON.stringify(value))					
-					} else if (defaultHeaders[z] === 'iovation') {
-						line.push("Yes")
-					} else {
-						line.push(value)
-					}
+		for(z=0;z<filteredHeaders.length;z++) {
+			var value = batch[i][filteredHeaders[z]]
+			if(value != null) {
+				if (typeof value === 'object') {
+					line.push(JSON.stringify(value))					
+				} else if (filteredHeaders[z] === 'iovation') {
+					line.push("Yes")
 				} else {
-					line.push(" ")
+					line.push(value)
 				}
-			// }
+			} else {
+				line.push(" ")
+			}
 		}
 		allContent.push(line)
 	}
@@ -51,7 +48,7 @@ function getContent(batch) {
 	return(allContent)
 }
 
-function getHeaders(batch) {
+function getAllHeaders(batch) {
 	var uniqueHeaders = []
 	for(i=0;i<batch.length;i++) {
 		var currentKeys = Object.keys(batch[i])
@@ -61,8 +58,7 @@ function getHeaders(batch) {
 			}
 		}
 	}
-	console.log("HEADERS:" )
-	console.log(uniqueHeaders)
+	console.log("HEADERS: " + uniqueHeaders)
 	// appendHeaders(uniqueHeaders)
 	return uniqueHeaders
 }
@@ -73,12 +69,29 @@ function appendHeaders(headers) {
 	}
 }
 
-// function initalHeaders() {
-// 	const visibleHeaders = ['name','page_id','variant','brand','client_id','image_url','product_url','catalog_id','feed_category','upc']	
-// 	return visibleHeaders
-// }
+function applyFilter(headers, filter) {
+	const filteredHeaders = []
+	console.log("FILTER!!! " + filter)
+	if (filter) {
+		for (h=0;h<headers.length;h++) {
+			if(filter.includes(headers[h])) {
+				filteredHeaders.push(headers[h])
+			}
+		}
+	} else {
+		for (h=0;h<headers.length;h++) {
+			filteredHeaders.push(headers[h])
+		}
+	}
+	console.log('FILTERED HEADERS: ' + filteredHeaders)
+	return filteredHeaders
+}
 
+// ================================================================
 // BUSINESS LOGIC
+// ================================================================
+
+// SUBMITT BUTTON
 $(".submit-button").click(function() {
 	var $textAreaInput = $(".text-area")[0].value
 	var inputArray = $textAreaInput.split("\n")
@@ -86,10 +99,28 @@ $(".submit-button").click(function() {
 	for(s=0;s<inputArray.length;s++) {
 		objectArray.push(JSON.parse(inputArray[s]))
 	}
+	CURRENTDATA = objectArray
 	$(".submit-container").css("display", "none")
 	displayContent(objectArray)
 })
 
+// SUBJECT FILTER BUTTON
+$(".subject-filter-button").click(function() {
+	var subjectFilterButton = $(".subject-filter-button")
+	if (subjectFilterButton.attr("active") === "false") {
+		subjectFilterButton.attr("active", "true")
+		subjectFilterButton.css("background", "green" )
+		$(".table-main").empty().append('<tr class="headers-container"></tr>')
+		displayContent(CURRENTDATA, subjectFilter)
+	} else {
+		subjectFilterButton.attr("active", "false")
+		subjectFilterButton.css("background", "lightgrey" )
+		$(".table-main").empty().append('<tr class="headers-container"></tr>')
+		displayContent(CURRENTDATA)
+	}
+})
+
+// RESET BUTTON
 $(".reset-button").click(function() {
-	location.reload()
+	location.reload(subjectFilter)
 })
