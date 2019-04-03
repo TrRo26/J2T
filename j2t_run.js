@@ -6,6 +6,7 @@ var ALLUNIQUEHEADERS = []
 var ACTIVEHEADERS = []
 const subjectFilter = ['name','page_id','variant','brand','client_id','image_url','product_url','catalog_id','feed_category','upc']	
 const ugcFilter = ['email','locale','rating','headline','bottom_line','started_date','review_source']
+const hutchFilter = ['name','page_id','variant','brand','image_url','product_url','feed_category','upc','feed_category']	
 
 // ================================================================
 // FUNCTIONS
@@ -152,8 +153,12 @@ $(".main-menu-container").on("click", ".preset-filter", function() {
 		} else if (filterButton.attr("data") === 'ugcFilter') {
 			$(".subject-filter-button").attr("active", "false").css({"background": "lightgrey"})
 			ACTIVEHEADERS = ugcFilter
-		}
-		displayContent(ALLCURRENTDATA, ACTIVEHEADERS)
+		
+		} else if (filterButton.attr("data") === 'hutchFilter') {
+			$(".subject-filter-button").attr("active", "false").css({"background": "lightgrey"})
+			$(".ugc-filter-button").attr("active", "false").css({"background": "lightgrey"})
+			ACTIVEHEADERS = hutchFilter
+		}		displayContent(ALLCURRENTDATA, ACTIVEHEADERS)
 	} else {
 		filterButton.attr("active", "false")
 		filterButton.css({"background": "lightgrey"})
